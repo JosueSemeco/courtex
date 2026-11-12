@@ -19,6 +19,10 @@
 @layer base {
   :root {
     color-scheme: light;
+
+    /* Barra superior: azul de marca en modo claro. El tema oscuro la redefine. */
+    --app-bar-bg: #1b39cc;
+    --app-bar-border: #14289a;
   }
 
   html,
@@ -527,9 +531,10 @@
     align-items: center;
     gap: 1rem;
     padding: 0.8125rem clamp(1rem, 3vw, 2.5rem);
-    background: var(--color-ink);
+    background: var(--app-bar-bg);
     color: #fff;
-    border-bottom: 2px solid var(--color-brand-600);
+    border-bottom: 2px solid var(--app-bar-border);
+    transition: background-color 240ms ease;
   }
 
   .app-bar__brand {
@@ -540,17 +545,17 @@
   }
 
   .app-bar__brand span {
-    color: #9db6ff;
+    color: #c3d0ff;
   }
 
   .app-bar__team-name,
   .app-bar__select {
     max-width: 18rem;
     padding: 0.3125rem 0.6875rem;
-    border: 1px solid rgb(255 255 255 / 0.22);
+    border: 1px solid rgb(255 255 255 / 0.32);
     border-radius: 999px;
-    background: rgb(255 255 255 / 0.07);
-    color: #f2f0ea;
+    background: rgb(255 255 255 / 0.12);
+    color: #ffffff;
     font-family: inherit;
     font-size: 0.8125rem;
     font-weight: 500;
@@ -562,6 +567,11 @@
   .app-bar__select {
     color-scheme: dark;
     cursor: pointer;
+  }
+
+  .app-bar__select option {
+    background: #fff;
+    color: var(--color-ink);
   }
 
   .app-bar__select:hover {
@@ -577,7 +587,7 @@
 
   .app-bar__user-name {
     font-size: 0.8125rem;
-    color: rgb(255 255 255 / 0.62);
+    color: rgb(255 255 255 / 0.85);
     max-width: 14rem;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -585,7 +595,7 @@
   }
 
   .app-bar .btn-quiet {
-    color: rgb(255 255 255 / 0.72);
+    color: rgb(255 255 255 / 0.88);
   }
 
   .app-bar .btn-quiet:hover {
