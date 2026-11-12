@@ -27,9 +27,7 @@ export interface AuthAdapter {
   signUp(input: SignUpInput): Promise<AuthOutcome>
   signOut(): Promise<void>
   getSession(): Promise<AuthUser | null>
-}
-
-type RemoteUser = {
+}type RemoteUser = {
   id: string
   email?: string | null
   user_metadata?: Record<string, unknown>
@@ -67,6 +65,18 @@ function translateAuthError(message: string): string {
   return 'No pudimos completar la operación. Inténtalo de nuevo.'
 }
 
+// Reclama las invitaciones pendientes de este correo. Nunca bloquea la sesión:
+// si falla, el usuario entra igual y lo reintenta en el siguiente arranque.
+async function claimPendingInvites(): Promise<void> {
+  if (!supabase) return
+
+  try {
+    await supabase.rpc('claim_invites')
+  } catch {
+    // silencio deliberado: el login no depende de esto
+  }
+}
+
 // Adaptador real contra Supabase Auth.
 const supabaseAuth: AuthAdapter = {
   async signIn({ email, password }) {
@@ -82,6 +92,7 @@ const supabaseAuth: AuthAdapter = {
     const user = toAuthUser(data.user)
     if (!user) return { status: 'error', message: 'Supabase no devolvió la sesión.' }
 
+    await claimPendingInvites()
     return { status: 'signed-in', user }
   },
 
@@ -113,7 +124,9 @@ const supabaseAuth: AuthAdapter = {
   async getSession() {
     if (!supabase) return null
     const { data } = await supabase.auth.getSession()
-    return toAuthUser(data.session?.user ?? null)
+    const user = toAuthUser(data.session?.user ?? null)
+    if (user) await claimPendingInvites()
+    return user
   },
 }
 
