@@ -36,7 +36,7 @@ function FieldShell({ name, label, error, hint, children, className }: FieldShel
 type TextFieldProps = FieldChromeProps & {
   value: string
   onChange: (value: string) => void
-  type?: 'text' | 'email' | 'date'
+  type?: 'text' | 'email' | 'date' | 'time'
   autoComplete?: string
   autoFocus?: boolean
   inputMode?: InputHTMLAttributes<HTMLInputElement>['inputMode']

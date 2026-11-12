@@ -3,7 +3,9 @@ import { useQuery } from '@tanstack/react-query'
 import type { AuthUser } from '../lib/auth'
 import { listMyTeams } from '../lib/data'
 import type { Team } from '../lib/data'
+import { CalendarPage } from '../features/calendar/CalendarPage'
 import { RosterPage } from '../features/roster/RosterPage'
+import { RoutinesPage } from '../features/routines/RoutinesPage'
 import { TeamOnboarding } from '../features/teams/TeamOnboarding'
 import { TeamTabs } from '../features/teams/TeamTabs'
 
@@ -12,6 +14,14 @@ type AppShellProps = {
   onSignOut: () => Promise<void>
 }
 
+type Section = 'roster' | 'calendar' | 'routines'
+
+const SECTIONS: Array<{ id: Section; label: string }> = [
+  { id: 'roster', label: 'Plantilla' },
+  { id: 'calendar', label: 'Calendario' },
+  { id: 'routines', label: 'Rutinas' },
+]
+
 function storageKey(userId: string) {
   return `courtex.team.${userId}`
 }
@@ -19,6 +29,7 @@ function storageKey(userId: string) {
 export function AppShell({ user, onSignOut }: AppShellProps) {
   const teamsQuery = useQuery({ queryKey: ['teams'], queryFn: listMyTeams })
   const [selectedId, setSelectedId] = useState<string | null>(() => localStorage.getItem(storageKey(user.id)))
+  const [section, setSection] = useState<Section>('roster')
 
   const teams = teamsQuery.data ?? []
   const team: Team | null = teams.find((candidate) => candidate.id === selectedId) ?? teams[0] ?? null
@@ -55,6 +66,22 @@ export function AppShell({ user, onSignOut }: AppShellProps) {
         </div>
       </header>
 
+      {team ? (
+        <nav className="section-nav" aria-label="Secciones del equipo">
+          {SECTIONS.map((item) => (
+            <button
+              key={item.id}
+              type="button"
+              className="section-link"
+              aria-current={section === item.id ? 'page' : undefined}
+              onClick={() => setSection(item.id)}
+            >
+              {item.label}
+            </button>
+          ))}
+        </nav>
+      ) : null}
+
       <main className="app-main">
         <div
           id="team-panel"
@@ -79,6 +106,10 @@ export function AppShell({ user, onSignOut }: AppShellProps) {
           </div>
         ) : !team ? (
           <TeamOnboarding onCreated={(created) => setSelectedId(created.id)} />
+        ) : section === 'calendar' ? (
+          <CalendarPage key={team.id} team={team} />
+        ) : section === 'routines' ? (
+          <RoutinesPage key={team.id} team={team} />
         ) : (
           <RosterPage key={team.id} team={team} />
         )}

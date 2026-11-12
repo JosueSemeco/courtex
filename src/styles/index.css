@@ -1110,6 +1110,405 @@
     max-width: 46ch;
   }
 
+  /* Secciones y acciones comunes ------------------------------------- */
+
+  .section-nav {
+    display: flex;
+    gap: 1.25rem;
+    padding: 0 clamp(1rem, 3vw, 2.5rem);
+    background: var(--color-paper);
+    border-bottom: 1px solid var(--color-line);
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .section-nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  .section-link {
+    position: relative;
+    flex: none;
+    padding: 0.875rem 0.125rem 0.75rem;
+    font-family: inherit;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--color-ink-soft);
+    white-space: nowrap;
+  }
+
+  .section-link:hover {
+    color: var(--color-ink);
+  }
+
+  .section-link[aria-current="page"] {
+    color: var(--color-ink);
+    font-weight: 700;
+  }
+
+  .section-link[aria-current="page"]::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    bottom: -1px;
+    left: 0;
+    height: 2px;
+    background: var(--color-brand-600);
+  }
+
+  .section-link:focus-visible {
+    outline: 2px solid var(--color-brand-600);
+    outline-offset: -3px;
+    border-radius: 3px;
+  }
+
+  .btn-small {
+    height: 2.25rem;
+    padding: 0 0.875rem;
+    font-size: 0.8125rem;
+  }
+
+  .btn-danger {
+    background: var(--color-danger);
+    color: #fff;
+  }
+
+  .btn-danger:hover:not(:disabled) {
+    background: #8f1416;
+  }
+
+  .icon-btn--light {
+    border: 1px solid var(--color-line);
+    background: #fff;
+  }
+
+  .icon-btn--light:hover {
+    background: #f4f0e8;
+  }
+
+  .icon-btn--small {
+    width: 1.75rem;
+    height: 1.75rem;
+    border: 1px solid var(--color-line);
+    font-size: 0.8125rem;
+    line-height: 1;
+  }
+
+  .icon-btn--small:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+  }
+
+  .sheet__inline-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    margin-top: 0.875rem;
+  }
+
+  /* Calendario ------------------------------------------------------- */
+
+  .cal-bar {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1.125rem 0 0.875rem;
+  }
+
+  .cal-month {
+    flex: 1;
+    font-size: 1.0625rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+
+  .cal-grid {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    border-top: 1px solid var(--color-ink);
+    border-left: 1px solid var(--color-line);
+  }
+
+  .cal-weekday {
+    padding: 0.5rem 0.5rem;
+    border-right: 1px solid var(--color-line);
+    border-bottom: 1px solid var(--color-line);
+    font-size: 0.625rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #6d6558;
+  }
+
+  .cal-day {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    min-height: 6.25rem;
+    padding: 0.375rem 0.4375rem;
+    text-align: left;
+    background: #fffdf8;
+    border-right: 1px solid var(--color-line);
+    border-bottom: 1px solid var(--color-line);
+    transition: background-color 120ms ease;
+  }
+
+  .cal-day:hover {
+    background: #fff;
+  }
+
+  .cal-day.is-outside {
+    background: #f3efe6;
+  }
+
+  .cal-day.is-outside .cal-day__num {
+    color: #6d6558;
+  }
+
+  .cal-day.is-today .cal-day__num {
+    background: var(--color-brand-600);
+    color: #fff;
+    border-radius: 999px;
+  }
+
+  .cal-day.is-selected {
+    box-shadow: inset 0 0 0 2px var(--color-brand-600);
+  }
+
+  .cal-day__num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.5rem;
+    height: 1.5rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .cal-day__events {
+    display: grid;
+    gap: 0.1875rem;
+  }
+
+  .cal-chip {
+    display: block;
+    padding: 0.0625rem 0.25rem;
+    border-radius: 0.25rem;
+    font-size: 0.6875rem;
+    line-height: 1.35;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .cal-chip--training {
+    background: #e6ecff;
+    color: #1b2f7d;
+  }
+
+  .cal-chip--match {
+    background: #fbe9dd;
+    color: #8a3d12;
+  }
+
+  .cal-more {
+    font-size: 0.6875rem;
+    color: var(--color-ink-soft);
+  }
+
+  .day-panel {
+    margin-top: 1.5rem;
+    border: 1px solid var(--color-line);
+    border-radius: 0.5rem;
+    background: #fffdf8;
+    overflow: hidden;
+  }
+
+  .day-panel__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.875rem 1rem;
+    border-bottom: 1px solid var(--color-line);
+  }
+
+  .day-panel__title {
+    font-size: 0.9375rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+
+  .day-panel__empty {
+    padding: 1rem;
+    font-size: 0.875rem;
+    color: var(--color-ink-soft);
+  }
+
+  .event-list {
+    display: grid;
+  }
+
+  .event-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid #efeae0;
+  }
+
+  .event-row:last-child {
+    border-bottom: 0;
+  }
+
+  .event-row__time {
+    min-width: 3.25rem;
+    font-size: 0.8125rem;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .event-row__dot {
+    flex: none;
+    width: 0.4375rem;
+    height: 0.4375rem;
+    border-radius: 999px;
+  }
+
+  .event-row__dot--training {
+    background: var(--color-brand-600);
+  }
+
+  .event-row__dot--match {
+    background: var(--color-accent);
+  }
+
+  .event-row__main {
+    display: grid;
+    gap: 0.125rem;
+    flex: 1;
+    min-width: 0;
+  }
+
+  .event-row__title {
+    font-weight: 600;
+  }
+
+  .event-row__meta {
+    font-size: 0.75rem;
+    color: var(--color-ink-soft);
+  }
+
+  .event-row__actions {
+    display: flex;
+    gap: 0.25rem;
+    flex: none;
+  }
+
+  /* Rutinas ---------------------------------------------------------- */
+
+  .routine-list {
+    display: grid;
+    border-top: 1px solid var(--color-ink);
+  }
+
+  .routine-card {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    border-bottom: 1px solid #e6e0d3;
+  }
+
+  .routine-card__main {
+    flex: 1;
+    display: grid;
+    gap: 0.1875rem;
+    padding: 0.875rem 0.25rem;
+    text-align: left;
+  }
+
+  .routine-card__name {
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+
+  .routine-card__main:hover .routine-card__name {
+    color: var(--color-brand-700);
+  }
+
+  .routine-card__desc {
+    font-size: 0.8125rem;
+    color: var(--color-ink-soft);
+  }
+
+  .routine-items {
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  .routine-items > .btn {
+    justify-self: start;
+  }
+
+  .item-list {
+    display: grid;
+  }
+
+  .item-row {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+    padding: 0.625rem 0;
+    border-bottom: 1px solid #efeae0;
+  }
+
+  .item-row__order {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: none;
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 999px;
+    background: #eee9df;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .item-row__main {
+    display: grid;
+    gap: 0.125rem;
+    flex: 1;
+    min-width: 0;
+  }
+
+  .item-row__title {
+    font-weight: 600;
+  }
+
+  .item-row__meta {
+    font-size: 0.75rem;
+    color: var(--color-ink-soft);
+  }
+
+  .item-row__actions {
+    display: flex;
+    align-items: center;
+    gap: 0.1875rem;
+    flex: none;
+  }
+
+  .item-form {
+    display: grid;
+    gap: 0.875rem;
+    padding: 0.875rem;
+    border: 1px dashed #cfc7b7;
+    border-radius: 0.5rem;
+    background: #fffdf8;
+  }
+
   @media (max-width: 519px) {
     .roster-table th,
     .roster-table td {
@@ -1162,6 +1561,23 @@
 
     .col-optional {
       display: none;
+    }
+
+    .cal-day {
+      min-height: 3.5rem;
+    }
+
+    .cal-day__events {
+      display: none;
+    }
+
+    .cal-day.has-events::after {
+      content: "";
+      width: 0.3125rem;
+      height: 0.3125rem;
+      margin-top: auto;
+      border-radius: 999px;
+      background: var(--color-brand-600);
     }
 
     .app-bar__user-name {

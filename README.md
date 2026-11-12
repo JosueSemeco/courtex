@@ -15,8 +15,8 @@ El diseño completo, con las decisiones y sus porqués, está en
 | Autenticación contra Supabase | Hecho |
 | Identidad y tenencia: equipos, roles, invitaciones, propiedad | Hecho y verificado |
 | Roster (jugadores con datos de scouting) | Hecho: panel, alta, edición, archivo · falta la foto |
-| Calendario y rutinas | Esquema y reglas hechos · **falta la pantalla** |
-| Asistencia y evaluaciones | Esquema y reglas hechos · **falta la pantalla** |
+| Calendario y rutinas | Hecho · falta la revisión móvil |
+| Asistencia y evaluaciones | Esquema listo · falta la pantalla |
 | Partido en vivo con offline multi-dispositivo | Pendiente |
 | Dashboards | Pendiente |
 | Recordatorios (correo y Telegram) | Pendiente |
@@ -145,8 +145,10 @@ src/
   assets/                 cancha y balón (ver CREDITS.md)
   components/             campos, botón de envío
   features/auth/          pantalla, panel de cancha y formularios
+  features/calendar/      mes, panel del día y hoja de evento
   features/roster/        plantilla: listado, hoja de jugador y validación
-  features/teams/         alta del primer equipo
+  features/routines/      rutinas y sus ejercicios
+  features/teams/         alta del primer equipo y tabs
   lib/auth.ts             adaptador (Supabase o local) y traducción de errores
   lib/data.ts             acceso a equipos y jugadores, con errores traducidos
   lib/supabase.ts         cliente
@@ -176,6 +178,10 @@ docs/superpowers/         diseño aprobado y plan del módulo 0
   validación (resumen de errores con foco y enlaces a los campos); edición; archivar y reactivar;
   búsqueda y orden; recuento de menores; rol jugador ve la plantilla sin acciones; móvil a 390 px
   sin desbordamiento horizontal. Lighthouse 100 en accesibilidad.
+- Calendario y rutinas: creación de partido con validación de rival, entrenamiento con rutina
+  asignada, chips por tipo en la celda, panel del día con acciones, cancelar y reactivar; rutina
+  con ejercicios, edición y reordenado por intercambio de posiciones. Lighthouse 100 en las tres
+  secciones.
 
 ## Deuda conocida
 
