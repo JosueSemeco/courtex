@@ -5,6 +5,7 @@ import { listMyTeams } from '../lib/data'
 import type { Team } from '../lib/data'
 import { RosterPage } from '../features/roster/RosterPage'
 import { TeamOnboarding } from '../features/teams/TeamOnboarding'
+import { TeamTabs } from '../features/teams/TeamTabs'
 
 type AppShellProps = {
   user: AuthUser
@@ -28,39 +29,38 @@ export function AppShell({ user, onSignOut }: AppShellProps) {
 
   return (
     <div className="app">
-      <header className="app-bar">
-        <span className="app-bar__brand">
-          Court<span>EX</span>
-        </span>
+      <header className="app-header">
+        <div className="app-bar">
+          <span className="app-bar__brand">
+            Court<span>EX</span>
+          </span>
 
-        {teams.length > 1 ? (
-          <label className="app-bar__team">
-            <span className="sr-only">Equipo</span>
-            <select
-              className="app-bar__select"
-              value={team?.id ?? ''}
-              onChange={(event) => setSelectedId(event.target.value)}
-            >
-              {teams.map((candidate) => (
-                <option key={candidate.id} value={candidate.id}>
-                  {candidate.name}
-                </option>
-              ))}
-            </select>
-          </label>
-        ) : team ? (
-          <span className="app-bar__team-name">{team.name}</span>
-        ) : null}
-
-        <div className="app-bar__user">
-          <span className="app-bar__user-name">{user.name}</span>
-          <button type="button" className="btn btn-quiet" onClick={onSignOut}>
-            Salir
-          </button>
+          <div className="app-bar__user">
+            <span className="app-bar__user-name">{user.name}</span>
+            <button type="button" className="btn btn-quiet" onClick={onSignOut}>
+              Salir
+            </button>
+          </div>
         </div>
+
+        {teams.length > 0 ? (
+          <TeamTabs
+            teams={teams}
+            activeId={team?.id ?? ''}
+            onSelect={(id) => {
+              setSelectedId(id)
+              window.scrollTo({ top: 0 })
+            }}
+          />
+        ) : null}
       </header>
 
       <main className="app-main">
+        <div
+          id="team-panel"
+          role={team ? 'tabpanel' : undefined}
+          aria-labelledby={team ? `team-tab-${team.id}` : undefined}
+        >
         {teamsQuery.isLoading ? (
           <div className="empty" aria-live="polite" aria-busy="true">
             <p className="empty__text">Cargando equipos…</p>
@@ -82,6 +82,7 @@ export function AppShell({ user, onSignOut }: AppShellProps) {
         ) : (
           <RosterPage key={team.id} team={team} />
         )}
+        </div>
       </main>
     </div>
   )

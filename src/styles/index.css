@@ -22,7 +22,6 @@
 
     /* Barra superior: azul de marca en modo claro. El tema oscuro la redefine. */
     --app-bar-bg: #1b39cc;
-    --app-bar-border: #14289a;
   }
 
   html,
@@ -523,17 +522,19 @@
     z-index: 0;
   }
 
-  .app-bar {
+  .app-header {
     position: sticky;
     top: 0;
     z-index: 20;
+  }
+
+  .app-bar {
     display: flex;
     align-items: center;
     gap: 1rem;
     padding: 0.8125rem clamp(1rem, 3vw, 2.5rem);
     background: var(--app-bar-bg);
     color: #fff;
-    border-bottom: 2px solid var(--app-bar-border);
     transition: background-color 240ms ease;
   }
 
@@ -548,34 +549,57 @@
     color: #c3d0ff;
   }
 
-  .app-bar__team-name,
-  .app-bar__select {
-    max-width: 18rem;
-    padding: 0.3125rem 0.6875rem;
-    border: 1px solid rgb(255 255 255 / 0.32);
-    border-radius: 999px;
-    background: rgb(255 255 255 / 0.12);
-    color: #ffffff;
+  .sub-nav {
+    display: flex;
+    gap: 1.25rem;
+    padding: 0 clamp(1rem, 3vw, 2.5rem);
+    background: var(--color-paper);
+    border-bottom: 1px solid var(--color-line);
+    overflow-x: auto;
+    scroll-padding-inline: 1rem;
+    scrollbar-width: none;
+  }
+
+  .sub-nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  .team-tab {
+    position: relative;
+    flex: none;
+    padding: 0.875rem 0.125rem 0.75rem;
     font-family: inherit;
-    font-size: 0.8125rem;
+    font-size: 0.875rem;
     font-weight: 500;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    letter-spacing: -0.01em;
+    color: var(--color-ink-soft);
     white-space: nowrap;
+    transition: color 140ms ease;
   }
 
-  .app-bar__select {
-    color-scheme: dark;
-    cursor: pointer;
-  }
-
-  .app-bar__select option {
-    background: #fff;
+  .team-tab:hover {
     color: var(--color-ink);
   }
 
-  .app-bar__select:hover {
-    background: rgb(255 255 255 / 0.12);
+  .team-tab[aria-selected="true"] {
+    color: var(--color-ink);
+    font-weight: 700;
+  }
+
+  .team-tab[aria-selected="true"]::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    bottom: -1px;
+    left: 0;
+    height: 2px;
+    background: var(--color-brand-600);
+  }
+
+  .team-tab:focus-visible {
+    outline: 2px solid var(--color-brand-600);
+    outline-offset: -3px;
+    border-radius: 3px;
   }
 
   .app-bar__user {
@@ -1114,9 +1138,6 @@
       display: none;
     }
 
-    .app-bar__team-name {
-      max-width: 8rem;
-    }
 
     .toolbar {
       align-items: stretch;

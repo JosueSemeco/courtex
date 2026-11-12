@@ -25,9 +25,10 @@ El diseño completo, con las decisiones y sus porqués, está en
 
 - **Tipografía**: Archivo variable, autoalojada con `@fontsource-variable/archivo`. Grotesca
   deportiva: titulares con tracking cerrado y números tabulares para dorsales y medidas.
-- **Barra de marca**: azul del login en modo claro, con una línea azul más oscura abajo. El color
-  vive en el token `--app-bar-bg`, que el tema oscuro redefine cuando exista. El nombre del equipo
-  vive en una píldora.
+- **Barra de marca**: azul del login en modo claro. El color vive en el token `--app-bar-bg`, que
+  el tema oscuro redefine cuando exista.
+- **Equipos como tabs**: segunda fila con `role="tablist"`, navegación con flechas y la tab activa
+  subrayada; con varios equipos el strip hace scroll horizontal y trae la activa a la vista.
 - **Papel cálido** (`#f6f3ec`) en vez de blanco: se lee como planilla, no como panel de
   administración.
 - **Motivo de cancha**: el círculo central aparece como marca de agua fija en la esquina inferior
