@@ -14,7 +14,7 @@ El diseño completo, con las decisiones y sus porqués, está en
 | Andamiaje, PWA y pantalla de acceso | Hecho |
 | Autenticación contra Supabase | Hecho |
 | Identidad y tenencia: equipos, roles, invitaciones, propiedad | Hecho y verificado |
-| Roster (jugadores con datos de scouting) | Esquema y reglas hechos · **falta la pantalla** |
+| Roster (jugadores con datos de scouting) | Hecho: panel, alta, edición, archivo · falta la foto |
 | Calendario y rutinas | Esquema y reglas hechos · **falta la pantalla** |
 | Asistencia y evaluaciones | Esquema y reglas hechos · **falta la pantalla** |
 | Partido en vivo con offline multi-dispositivo | Pendiente |
@@ -123,12 +123,16 @@ En *Authentication → Providers → Email* hay dos ajustes que no son lo mismo:
 
 ```
 src/
+  app/                    armazón de la aplicación autenticada
   assets/                 cancha y balón (ver CREDITS.md)
-  components/             campos y botón de envío
+  components/             campos, botón de envío
   features/auth/          pantalla, panel de cancha y formularios
+  features/roster/        plantilla: listado, hoja de jugador y validación
+  features/teams/         alta del primer equipo
   lib/auth.ts             adaptador (Supabase o local) y traducción de errores
+  lib/data.ts             acceso a equipos y jugadores, con errores traducidos
   lib/supabase.ts         cliente
-  styles/index.css        tokens, cancha, transición y responsive
+  styles/index.css        tokens, cancha, transición, tablas y responsive
 supabase/migrations/      esquema, en orden
 docs/superpowers/         diseño aprobado y plan del módulo 0
 ```
@@ -150,17 +154,24 @@ docs/superpowers/         diseño aprobado y plan del módulo 0
   reordenar por punto medio, nombre de rutina repetido rechazado, asistencia duplicada (409) y de
   otro equipo (23503), puntaje fuera de escala rechazado, borrar rutina deja el evento sin rutina
   y sin ítems huérfanos, jugador con historial no se puede borrar, jugador raso no crea eventos.
+- Plantilla en la app: registro nuevo → alta de equipo → plantilla vacía; alta de jugador con
+  validación (resumen de errores con foco y enlaces a los campos); edición; archivar y reactivar;
+  búsqueda y orden; recuento de menores; rol jugador ve la plantilla sin acciones; móvil a 390 px
+  sin desbordamiento horizontal. Lighthouse 100 en accesibilidad.
 
 ## Deuda conocida
 
 - **Sin pruebas automatizadas.** La verificación es manual contra la base; el primer lugar donde
   hacen falta es la lógica de agregación de estadísticas.
-- **Bundle de 532 kB (152 kB gzip)** por `supabase-js`. Conviene cargarlo por demanda cuando
-  exista el panel.
+- **Bundle de 588 kB (168 kB gzip)** por `supabase-js` y React Query. Conviene cargar el panel por
+  demanda cuando existan más pantallas.
+- **Foto del jugador sin interfaz.** La base exige consentimiento del representante para un menor,
+  pero subir la imagen necesita Storage y una pantalla de consentimiento: módulo pendiente.
+- **Borrado con `window.confirm`.** Funciona y es accesible, pero no es el diálogo del producto.
 - **Sin CI.** Cloudflare Pages + GitHub Actions está decidido, no configurado.
 - **Correo sin dominio propio.** Bloquea los recordatorios reales.
-- **Datos de prueba** en el proyecto (`verificacion-*`, `jugador-*`, equipos "Roster Test" y
-  "UI Test"). Se limpian desde el dashboard.
+- **Datos de prueba** en el proyecto (`verificacion-*`, `jugador-*`, `onboarding-*`, equipos
+  "Roster Test", "UI Test", "Rutinas", "Halcones de Prueba"). Se limpian desde el dashboard.
 
 ## Créditos
 
