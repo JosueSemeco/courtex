@@ -1,11 +1,28 @@
 # CourtEX
 
-Plataforma para entrenadores de baloncesto: plantilla, rutinas de entrenamiento, asistencia y
-evaluación, estadísticas de partido en vivo desde la cancha, calendario con recordatorios y
-dashboards de partido, jugador y equipo.
+**La planilla del entrenador de baloncesto, en una PWA que aguanta la cancha.**
+
+Plantilla con datos de scouting, rutinas de entrenamiento, calendario, asistencia y evaluación.
+El partido en vivo y los dashboards están en construcción.
+
+`React 19` · `TypeScript` · `Supabase` · `Tailwind 4` · `Vite` · `Vitest`
+
+![Pantalla de acceso](docs/screenshots/acceso.png)
+
+| Plantilla | Calendario |
+|---|---|
+| ![Plantilla](docs/screenshots/plantilla.png) | ![Calendario](docs/screenshots/calendario.png) |
+
+| Rutinas |
+|---|
+| ![Rutinas](docs/screenshots/rutinas.png) |
+
+> Proyecto en desarrollo activo. Lo que aparece como hecho está probado contra una base de datos
+> real; lo que falta está listado en la sección de estado y en la deuda conocida.
 
 El diseño completo, con las decisiones y sus porqués, está en
-`docs/superpowers/specs/2026-11-11-courtex-design.md`.
+`docs/superpowers/specs/2026-11-11-courtex-design.md`. La auditoría funcional, en
+`docs/auditoria-2026-11-12.md`.
 
 ## Estado
 
@@ -64,7 +81,7 @@ corepack pnpm@9 dev -- --host 127.0.0.1 --port 5180
 
 | Variable | Contenido |
 |---|---|
-| `VITE_SUPABASE_URL` | `https://tu-proyecto.supabase.co` |
+| `VITE_SUPABASE_URL` | `https://<tu-proyecto>.supabase.co` |
 | `VITE_SUPABASE_PUBLISHABLE_KEY` | Clave publicable (`sb_publishable_…`) |
 
 La clave publicable es pública por diseño: RLS es lo que protege los datos. La clave de servicio
@@ -75,7 +92,7 @@ desarrollo de la interfaz.
 
 ## Base de datos
 
-Proyecto Supabase `tu-proyecto`. Las migraciones viven en `supabase/migrations/` y se
+Proyecto Supabase propio; la URL y la clave publicable viven en `.env.local`. Las migraciones viven en `supabase/migrations/` y se
 aplican **a mano** en el SQL Editor del dashboard, en orden. No hay Docker en la máquina para
 levantar Supabase local ni se usa la clave de servicio.
 
