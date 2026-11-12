@@ -14,7 +14,7 @@ El diseño completo, con las decisiones y sus porqués, está en
 | Andamiaje, PWA y pantalla de acceso | Hecho |
 | Autenticación contra Supabase | Hecho |
 | Identidad y tenencia: equipos, roles, invitaciones, propiedad | Hecho y verificado |
-| Roster (jugadores con datos de scouting) | **Siguiente** |
+| Roster (jugadores con datos de scouting) | Esquema y reglas hechos · **falta la pantalla** |
 | Calendario y rutinas | Pendiente |
 | Asistencia y evaluaciones | Pendiente |
 | Partido en vivo con offline multi-dispositivo | Pendiente |
@@ -66,6 +66,7 @@ levantar Supabase local ni se usa la clave de servicio.
 | `0001_init.sql` | `profiles`, `teams`, `team_members`; RLS; `create_team()` |
 | `0002_membership.sql` | Propiedad, invitaciones por correo, archivo lógico, `my_teams()` |
 | `0003_claim_invites.sql` | Enlace de invitaciones al iniciar sesión; limpia el trigger |
+| `0004_players.sql` | `players`, `player_consents`, vista `roster` |
 
 ### Reglas que impone la base
 
@@ -78,6 +79,13 @@ levantar Supabase local ni se usa la clave de servicio.
 - **Invitaciones sin cuenta.** La membresía se crea con el correo; se activa al iniciar sesión
   (`claim_invites()`, que el adaptador llama solo). No requiere que el invitado tenga cuenta
   todavía.
+- **La foto de un menor exige consentimiento.** Un trigger impone la regla del artículo 65 de la
+  LOPNNA: sin un `player_consents` de tipo `image` vigente, guardar `photo_url` falla con
+  `minor_photo_requires_guardian_consent`. Orden obligatorio: ficha → consentimiento → foto.
+- **Dorsal único entre activos.** Dos jugadores no comparten número en la misma planilla, pero el
+  número se libera al archivar o dar de baja.
+- **`is_minor` no se almacena.** Se calcula con `is_minor(birth_date)`; una bandera guardada
+  mentiría el día del cumpleaños 18.
 
 ### Funciones expuestas (RPC)
 
@@ -122,6 +130,10 @@ docs/superpowers/         diseño aprobado y plan del módulo 0
   "sin permiso" con "sin cambios".
 - Traspaso de propiedad, bloqueo del último entrenador, invitación sin cuenta, enlace al
   registrarse, enlace al iniciar sesión y archivo lógico: probados contra el proyecto real.
+- Roster: dorsal duplicado (409), foto de menor sin consentimiento (rechazada), foto tras
+  registrar el consentimiento (aceptada), consentimiento de otro equipo (rechazado por FK),
+  jugador raso que intenta crear (403), subentrenador que borra (0 filas), entrenador que borra
+  (1 fila), aislamiento entre equipos y `roster` con `is_minor`/`age_years` correctos.
 
 ## Deuda conocida
 
