@@ -18,6 +18,7 @@ export function RegisterForm({ onSignedIn, onSwitch }: RegisterFormProps) {
   const [accepted, setAccepted] = useState(false)
   const [errors, setErrors] = useState<Record<string, string>>({})
   const [formError, setFormError] = useState<string | null>(null)
+  const [confirmationEmail, setConfirmationEmail] = useState<string | null>(null)
   const [pending, setPending] = useState(false)
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -35,11 +36,34 @@ export function RegisterForm({ onSignedIn, onSwitch }: RegisterFormProps) {
     const result = await auth.signUp(parsed.data)
     setPending(false)
 
-    if (result.ok) {
+    if (result.status === 'signed-in') {
       onSignedIn(result.user)
-    } else {
-      setFormError(result.error)
+      return
     }
+
+    if (result.status === 'confirmation-required') {
+      setConfirmationEmail(result.email)
+      return
+    }
+
+    setFormError(result.message)
+  }
+
+  if (confirmationEmail) {
+    return (
+      <div className="auth-form">
+        <h1 className="auth-title" id="auth-heading">
+          Revisa tu correo
+        </h1>
+        <p className="auth-sub">
+          Enviamos un enlace de confirmación a <strong>{confirmationEmail}</strong>.
+          Ábrelo y vuelve para entrar con tu cuenta.
+        </p>
+        <button type="button" className="btn btn-primary" onClick={onSwitch}>
+          Ya confirmé, iniciar sesión
+        </button>
+      </div>
+    )
   }
 
   return (

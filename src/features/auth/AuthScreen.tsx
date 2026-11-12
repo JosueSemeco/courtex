@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { auth } from '../../lib/auth'
 import type { AuthUser } from '../../lib/auth'
 import { CourtPanel } from './CourtPanel'
@@ -9,10 +9,25 @@ type Mode = 'login' | 'register'
 
 export function AuthScreen() {
   const [mode, setMode] = useState<Mode>('login')
-  const [user, setUser] = useState<AuthUser | null>(() => auth.currentUser())
+  const [user, setUser] = useState<AuthUser | null>(null)
+  const [checking, setChecking] = useState(true)
 
-  function handleSignOut() {
-    auth.signOut()
+  useEffect(() => {
+    let active = true
+
+    auth.getSession().then((session) => {
+      if (!active) return
+      setUser(session)
+      setChecking(false)
+    })
+
+    return () => {
+      active = false
+    }
+  }, [])
+
+  async function handleSignOut() {
+    await auth.signOut()
     setUser(null)
     setMode('login')
   }
@@ -29,7 +44,7 @@ export function AuthScreen() {
         data-side={mode === 'login' ? 'end' : 'start'}
         aria-labelledby="auth-heading"
       >
-        {user ? (
+        {checking ? null : user ? (
           <div className="auth-done" key="signed-in">
             <h1 className="auth-title" id="auth-heading">
               Hola, {user.name.split(' ')[0]}.

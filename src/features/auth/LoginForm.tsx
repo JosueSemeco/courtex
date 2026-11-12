@@ -33,11 +33,17 @@ export function LoginForm({ onSignedIn, onSwitch }: LoginFormProps) {
     const result = await auth.signIn(parsed.data)
     setPending(false)
 
-    if (result.ok) {
+    if (result.status === 'signed-in') {
       onSignedIn(result.user)
-    } else {
-      setFormError(result.error)
+      return
     }
+
+    if (result.status === 'confirmation-required') {
+      setFormError('Confirma tu correo antes de entrar. Revisa tu bandeja.')
+      return
+    }
+
+    setFormError(result.message)
   }
 
   return (
