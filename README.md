@@ -15,8 +15,8 @@ El diseño completo, con las decisiones y sus porqués, está en
 | Autenticación contra Supabase | Hecho |
 | Identidad y tenencia: equipos, roles, invitaciones, propiedad | Hecho y verificado |
 | Roster (jugadores con datos de scouting) | Esquema y reglas hechos · **falta la pantalla** |
-| Calendario y rutinas | Pendiente |
-| Asistencia y evaluaciones | Pendiente |
+| Calendario y rutinas | Esquema y reglas hechos · **falta la pantalla** |
+| Asistencia y evaluaciones | Esquema y reglas hechos · **falta la pantalla** |
 | Partido en vivo con offline multi-dispositivo | Pendiente |
 | Dashboards | Pendiente |
 | Recordatorios (correo y Telegram) | Pendiente |
@@ -67,6 +67,7 @@ levantar Supabase local ni se usa la clave de servicio.
 | `0002_membership.sql` | Propiedad, invitaciones por correo, archivo lógico, `my_teams()` |
 | `0003_claim_invites.sql` | Enlace de invitaciones al iniciar sesión; limpia el trigger |
 | `0004_players.sql` | `players`, `player_consents`, vista `roster` |
+| `0005_routines_events.sql` | Rutinas, calendario, asistencia, criterios y evaluaciones |
 
 ### Reglas que impone la base
 
@@ -86,6 +87,17 @@ levantar Supabase local ni se usa la clave de servicio.
   número se libera al archivar o dar de baja.
 - **`is_minor` no se almacena.** Se calcula con `is_minor(birth_date)`; una bandera guardada
   mentiría el día del cumpleaños 18.
+- **Nada cruza de equipo.** Asistencia y evaluación usan claves foráneas compuestas contra
+  `(evento, equipo)` y `(jugador, equipo)`: colgar la asistencia en el evento de otro equipo falla
+  en la base aunque el código tenga un bug.
+- **La historia manda.** Borrar un jugador con asistencias o evaluaciones falla (`23503`); se
+  archiva. Lo mismo con rutinas: borrarlas deja el evento sin rutina, no lo borra.
+- **El orden es un número fraccionario** (`position` en `numeric`): reordenar es asignar el punto
+  medio entre dos vecinos, sin renumerar la lista.
+- **La escala de evaluación vive en los criterios**, y un trigger valida el puntaje contra el
+  rango de ese criterio. Un equipo nuevo nace con cinco criterios sembrados.
+- **Un partido exige rival**; un entrenamiento no. Borrar un evento es solo del entrenador;
+  cancelarlo lo puede hacer el subentrenador.
 
 ### Funciones expuestas (RPC)
 
@@ -134,6 +146,10 @@ docs/superpowers/         diseño aprobado y plan del módulo 0
   registrar el consentimiento (aceptada), consentimiento de otro equipo (rechazado por FK),
   jugador raso que intenta crear (403), subentrenador que borra (0 filas), entrenador que borra
   (1 fila), aislamiento entre equipos y `roster` con `is_minor`/`age_years` correctos.
+- Rutinas y eventos: cinco criterios sembrados al crear equipo, partido sin rival rechazado,
+  reordenar por punto medio, nombre de rutina repetido rechazado, asistencia duplicada (409) y de
+  otro equipo (23503), puntaje fuera de escala rechazado, borrar rutina deja el evento sin rutina
+  y sin ítems huérfanos, jugador con historial no se puede borrar, jugador raso no crea eventos.
 
 ## Deuda conocida
 
