@@ -11,6 +11,8 @@
 
 ## Balón — `src/assets/basketball.svg`
 
-- Obra original: *Basketball Clipart.svg*.
-- Fuente: https://commons.wikimedia.org/wiki/File:Basketball_Clipart.svg
-- Licencia: **dominio público** (sin atribución obligatoria; se acredita igual).
+- Obra original: *Font Awesome 5 solid basketball-ball.svg* (Font Awesome Free).
+- Fuente: https://commons.wikimedia.org/wiki/File:Font_Awesome_5_solid_basketball-ball.svg
+- Licencia: **CC BY 4.0** — https://creativecommons.org/licenses/by/4.0
+- Cambios aplicados: relleno plano `#e2743a`; las costuras quedan recortadas y muestran el
+  color del panel, sin degradados ni sombras.
