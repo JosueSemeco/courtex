@@ -21,6 +21,19 @@ El diseño completo, con las decisiones y sus porqués, está en
 | Dashboards | Pendiente |
 | Recordatorios (correo y Telegram) | Pendiente |
 
+## Identidad visual
+
+- **Tipografía**: Archivo variable, autoalojada con `@fontsource-variable/archivo`. Grotesca
+  deportiva: titulares con tracking cerrado y números tabulares para dorsales y medidas.
+- **Barra de tinta**: la cabecera es negra con una línea azul de marca, como el panel negro del
+  acceso. El nombre del equipo vive en una píldora.
+- **Papel cálido** (`#f6f3ec`) en vez de blanco: se lee como planilla, no como panel de
+  administración.
+- **Motivo de cancha**: el círculo central aparece como marca de agua fija en la esquina inferior
+  y como arco detrás de los estados vacíos.
+- **Naranja de balón** reservado para lo que hay que mirar: jugadores menores de edad.
+- **Dorsal en la ficha**: el número aparece como ficha de camiseta en la cabecera de la hoja.
+
 ## Stack
 
 - **Front**: React 19 + Vite 8 + TypeScript 7, Tailwind 4, Zod 4.
@@ -161,6 +174,8 @@ docs/superpowers/         diseño aprobado y plan del módulo 0
 
 ## Deuda conocida
 
+- **Sin modo oscuro.** La app es clara y el acceso es oscuro; falta una variante oscura real y
+  probarla por separado.
 - **Sin pruebas automatizadas.** La verificación es manual contra la base; el primer lugar donde
   hacen falta es la lógica de agregación de estadísticas.
 - **Bundle de 588 kB (168 kB gzip)** por `supabase-js` y React Query. Conviene cargar el panel por

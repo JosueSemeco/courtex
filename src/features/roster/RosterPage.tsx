@@ -78,7 +78,7 @@ export function RosterPage({ team }: { team: Team }) {
         <div>
           <h1 className="page-title">Plantilla</h1>
           <p className="page-sub">
-            {active.length} {active.length === 1 ? 'jugador' : 'jugadores'}
+            <strong>{active.length}</strong> {active.length === 1 ? 'jugador' : 'jugadores'}
             {minors.length > 0 ? ` · ${minors.length} menor${minors.length === 1 ? '' : 'es'} de edad` : ''}
           </p>
         </div>
@@ -220,7 +220,17 @@ export function RosterPage({ team }: { team: Team }) {
                     </td>
                     <td className="col-optional mono">{age ?? '—'}</td>
                     <td className="col-optional">
-                      <span className={archived ? 'badge badge--muted' : 'badge'}>
+                      <span className="state">
+                        <span
+                          className={
+                            archived
+                              ? 'state__dot state__dot--archived'
+                              : player.status === 'inactive'
+                                ? 'state__dot state__dot--inactive'
+                                : 'state__dot'
+                          }
+                          aria-hidden="true"
+                        />
                         {archived ? 'Archivado' : player.status === 'inactive' ? 'Inactivo' : 'Activo'}
                       </span>
                     </td>

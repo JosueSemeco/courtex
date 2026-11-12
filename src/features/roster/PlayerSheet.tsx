@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import type { FormEvent } from 'react'
+import { createPortal } from 'react-dom'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { createPlayer, updatePlayer } from '../../lib/data'
 import type { Player, PlayerDraft } from '../../lib/data'
@@ -154,7 +155,7 @@ export function PlayerSheet({ teamId, player, onClose }: PlayerSheetProps) {
 
   const errorEntries = Object.entries(errors)
 
-  return (
+  return createPortal(
     <div
       className="sheet-backdrop"
       onMouseDown={(event) => {
@@ -168,6 +169,11 @@ export function PlayerSheet({ teamId, player, onClose }: PlayerSheetProps) {
         aria-labelledby="player-sheet-title"
       >
         <header className="sheet__head">
+          {player?.jersey_number !== null && player?.jersey_number !== undefined ? (
+            <span className="sheet__jersey" aria-hidden="true">
+              {player.jersey_number}
+            </span>
+          ) : null}
           <h2 className="sheet__title" id="player-sheet-title">
             {player ? 'Editar jugador' : 'Nuevo jugador'}
           </h2>
@@ -351,6 +357,7 @@ export function PlayerSheet({ teamId, player, onClose }: PlayerSheetProps) {
           </footer>
         </form>
       </section>
-    </div>
+    </div>,
+    document.body,
   )
 }
