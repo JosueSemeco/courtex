@@ -58,7 +58,7 @@ export class DataError extends Error {}
 
 type PostgrestLike = { message: string; code?: string; details?: string | null }
 
-function translateDbError(error: PostgrestLike): string {
+export function translateDbError(error: PostgrestLike): string {
   const text = `${error.message} ${error.details ?? ''}`
 
   if (error.code === '23505' && text.includes('players_team_number_idx')) {

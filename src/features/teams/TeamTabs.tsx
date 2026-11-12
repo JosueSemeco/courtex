@@ -33,7 +33,7 @@ export function TeamTabs({ teams, activeId, onSelect }: TeamTabsProps) {
   }
 
   return (
-    <div className="sub-nav" role="tablist" aria-label="Equipos" onKeyDown={handleKeyDown}>
+    <div className="app-bar__tabs" role="tablist" aria-label="Equipos" onKeyDown={handleKeyDown}>
       {teams.map((team, index) => (
         <button
           key={team.id}

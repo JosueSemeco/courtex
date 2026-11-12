@@ -29,19 +29,10 @@ export function AppShell({ user, onSignOut }: AppShellProps) {
 
   return (
     <div className="app">
-      <header className="app-header">
-        <div className="app-bar">
-          <span className="app-bar__brand">
-            Court<span>EX</span>
-          </span>
-
-          <div className="app-bar__user">
-            <span className="app-bar__user-name">{user.name}</span>
-            <button type="button" className="btn btn-quiet" onClick={onSignOut}>
-              Salir
-            </button>
-          </div>
-        </div>
+      <header className="app-bar">
+        <span className="app-bar__brand">
+          Court<span>EX</span>
+        </span>
 
         {teams.length > 0 ? (
           <TeamTabs
@@ -52,7 +43,16 @@ export function AppShell({ user, onSignOut }: AppShellProps) {
               window.scrollTo({ top: 0 })
             }}
           />
-        ) : null}
+        ) : (
+          <span className="app-bar__spacer" />
+        )}
+
+        <div className="app-bar__user">
+          <span className="app-bar__user-name">{user.name}</span>
+          <button type="button" className="btn btn-quiet" onClick={onSignOut}>
+            Salir
+          </button>
+        </div>
       </header>
 
       <main className="app-main">

@@ -27,8 +27,9 @@ El diseño completo, con las decisiones y sus porqués, está en
   deportiva: titulares con tracking cerrado y números tabulares para dorsales y medidas.
 - **Barra de marca**: azul del login en modo claro. El color vive en el token `--app-bar-bg`, que
   el tema oscuro redefine cuando exista.
-- **Equipos como tabs**: segunda fila con `role="tablist"`, navegación con flechas y la tab activa
-  subrayada; con varios equipos el strip hace scroll horizontal y trae la activa a la vista.
+- **Equipos como tabs dentro del cintillo**: `role="tablist"` en la misma barra azul, navegación
+  con flechas y la tab activa subrayada en blanco. En móvil el cintillo pasa a dos filas: marca y
+  usuario arriba, tabs abajo, sin salir del azul.
 - **Papel cálido** (`#f6f3ec`) en vez de blanco: se lee como planilla, no como panel de
   administración.
 - **Motivo de cancha**: el círculo central aparece como marca de agua fija en la esquina inferior
@@ -43,6 +44,7 @@ El diseño completo, con las decisiones y sus porqués, está en
 - **Auth**: `@supabase/supabase-js`, con un adaptador local de respaldo cuando faltan las
   variables de entorno.
 - **Gestor de paquetes**: pnpm vía `corepack` (npm no está instalado en el sistema).
+- **Pruebas**: Vitest sobre la lógica pura (validación y traducción de errores).
 
 ## Cómo correrlo
 
@@ -54,6 +56,7 @@ corepack pnpm@9 dev -- --host 127.0.0.1 --port 5180
 
 - App: http://127.0.0.1:5180
 - Build de producción: `corepack pnpm@9 build` (ejecuta `tsc --noEmit` antes de Vite).
+- Pruebas: `corepack pnpm@9 test` (Vitest).
 
 ## Variables de entorno
 
@@ -178,8 +181,8 @@ docs/superpowers/         diseño aprobado y plan del módulo 0
 
 - **Sin modo oscuro.** La app es clara y el acceso es oscuro; falta una variante oscura real y
   probarla por separado.
-- **Sin pruebas automatizadas.** La verificación es manual contra la base; el primer lugar donde
-  hacen falta es la lógica de agregación de estadísticas.
+- **Cobertura automatizada limitada**: 19 pruebas unitarias (validación de la ficha y traducción
+  de errores de Postgres) con Vitest. Sin pruebas de componentes ni E2E.
 - **Bundle de 588 kB (168 kB gzip)** por `supabase-js` y React Query. Conviene cargar el panel por
   demanda cuando existan más pantallas.
 - **Foto del jugador sin interfaz.** La base exige consentimiento del representante para un menor,

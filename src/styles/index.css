@@ -522,23 +522,23 @@
     z-index: 0;
   }
 
-  .app-header {
+  .app-bar {
     position: sticky;
     top: 0;
     z-index: 20;
-  }
-
-  .app-bar {
     display: flex;
-    align-items: center;
-    gap: 1rem;
-    padding: 0.8125rem clamp(1rem, 3vw, 2.5rem);
+    align-items: stretch;
+    gap: 0.75rem;
+    min-height: 3.75rem;
+    padding: 0 clamp(1rem, 3vw, 2.5rem);
     background: var(--app-bar-bg);
     color: #fff;
     transition: background-color 240ms ease;
   }
 
   .app-bar__brand {
+    display: flex;
+    align-items: center;
     font-size: 1.125rem;
     font-weight: 800;
     letter-spacing: -0.05em;
@@ -549,56 +549,53 @@
     color: #c3d0ff;
   }
 
-  .sub-nav {
-    display: flex;
-    gap: 1.25rem;
-    padding: 0 clamp(1rem, 3vw, 2.5rem);
-    background: var(--color-paper);
-    border-bottom: 1px solid var(--color-line);
-    overflow-x: auto;
-    scroll-padding-inline: 1rem;
-    scrollbar-width: none;
+  .app-bar__spacer {
+    flex: 1;
   }
 
-  .sub-nav::-webkit-scrollbar {
+  .app-bar__tabs {
+    display: flex;
+    flex: 1;
+    min-width: 0;
+    gap: 0.125rem;
+    overflow-x: auto;
+    scrollbar-width: none;
+    scroll-padding-inline: 1rem;
+  }
+
+  .app-bar__tabs::-webkit-scrollbar {
     display: none;
   }
 
   .team-tab {
-    position: relative;
+    display: inline-flex;
+    align-items: center;
     flex: none;
-    padding: 0.875rem 0.125rem 0.75rem;
+    padding: 0 0.75rem;
+    border-bottom: 2px solid transparent;
     font-family: inherit;
     font-size: 0.875rem;
     font-weight: 500;
     letter-spacing: -0.01em;
-    color: var(--color-ink-soft);
+    color: rgb(255 255 255 / 0.75);
     white-space: nowrap;
-    transition: color 140ms ease;
+    transition: color 140ms ease, background-color 140ms ease;
   }
 
   .team-tab:hover {
-    color: var(--color-ink);
+    color: #fff;
+    background: rgb(255 255 255 / 0.08);
   }
 
   .team-tab[aria-selected="true"] {
-    color: var(--color-ink);
+    color: #fff;
     font-weight: 700;
-  }
-
-  .team-tab[aria-selected="true"]::after {
-    content: "";
-    position: absolute;
-    right: 0;
-    bottom: -1px;
-    left: 0;
-    height: 2px;
-    background: var(--color-brand-600);
+    border-bottom-color: #fff;
   }
 
   .team-tab:focus-visible {
-    outline: 2px solid var(--color-brand-600);
-    outline-offset: -3px;
+    outline: 2px solid #fff;
+    outline-offset: -4px;
     border-radius: 3px;
   }
 
@@ -870,7 +867,7 @@
     position: absolute;
     top: 50%;
     left: 50%;
-    width: min(24rem, 78%);
+    width: min(19rem, 74%);
     aspect-ratio: 1;
     transform: translate(-50%, -50%);
     border: 2px solid rgb(13 13 16 / 0.07);
@@ -1130,6 +1127,39 @@
   }
 
   @media (max-width: 719px) {
+    .app-bar {
+      flex-wrap: wrap;
+      column-gap: 0.5rem;
+      padding-top: 0.625rem;
+      padding-bottom: 0;
+      min-height: 0;
+    }
+
+    .app-bar__brand,
+    .app-bar__user {
+      min-height: 2.5rem;
+    }
+
+    .app-bar__brand {
+      order: 1;
+    }
+
+    .app-bar__user {
+      order: 2;
+    }
+
+    .app-bar__tabs {
+      order: 3;
+      flex-basis: 100%;
+      margin-inline: calc(-1 * clamp(1rem, 3vw, 2.5rem));
+      padding-inline: clamp(1rem, 3vw, 2.5rem);
+    }
+
+    .team-tab {
+      min-height: 2.75rem;
+      padding-inline: 0.625rem;
+    }
+
     .col-optional {
       display: none;
     }
